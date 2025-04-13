@@ -1,0 +1,35 @@
+def matrix_dot_vector(matrix: list, vector: list) -> list :
+    # Return a list where each element is the dot product of a row of 'a' with 'b'.
+	# If the number of columns in 'a' does not match the length of 'b', return -1.
+    
+    #checking availability of matrix and vector
+    if not matrix and not vector:
+        return -1
+    
+    #Getting dimensions; m=column No., n=row No.
+    n = len(matrix)
+    m = len(matrix[0])
+    
+    #checking equality of column No.
+    for row in matrix:
+        if len(row) != m:
+            return -1
+    
+    #checking compatibility of Column No. and vector
+    if m != len(vector):
+        return -1
+    
+    result_vector = []
+    
+    for i in range(n):
+        row_sum = 0
+        for j in range(m):
+            row_sum += matrix[i][j] * vector[j]
+        result_vector.append(row_sum)
+        
+    return result_vector
+
+a = [[1, 2], [2, 3], [3, 1]]
+b = [-2, 1]
+
+print(matrix_dot_vector(a, b))
