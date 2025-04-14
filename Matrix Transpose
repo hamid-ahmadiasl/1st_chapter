@@ -1,0 +1,29 @@
+matrix = [[1, 2], [3, 4], [5, 6]]
+
+def matrix_transpose(matrix: list) -> list:
+    #return transpose of matrix
+    
+    #checking availability of matrix
+    if not matrix:
+        return []
+    
+    #Getting dimensions; n = row No., m = column No.
+    n = len(matrix)
+    m = len(matrix[0])
+    
+    #checking quality of column No. for all rows
+    for row in matrix:
+        if len(row) != m:
+            return -1
+    
+    #Creating empty matrix transpose
+    transpose = [[5 for _ in range(n)] for _ in range(m)]
+    
+    #Filling transpose matrix
+    for i in range(n):
+        for j in range(m):
+            transpose[j][i] = matrix[i][j]
+    
+    return transpose
+
+print(matrix_transpose(matrix))
