@@ -1,0 +1,42 @@
+def matrix_reshape(matrix: list, new_shape: tuple) -> list:
+    #Write your code here and return a python list after reshaping
+    
+    #Checking matrix availability
+    if not matrix:
+        return []
+    
+    #Getting dimensions; n = row No., m = column No.
+    n = len(matrix)
+    m = len(matrix[0])
+    
+    #Checking quality of column No. for all rows
+    for row in matrix:
+        if len(row) != m:
+            return -1
+    
+    #Cheking if reshape is possible
+    if new_shape[0] * new_shape[1] != n * m:
+        return 'Reshaping is not possible'
+    
+    #Flating matrix into one list
+    flat = []
+    for i in range(n):
+        for j in range(m):
+            flat.append(matrix[i][j])
+    
+    #Creating reshaped matrix
+    reshaped = []
+    k = 0
+    for i in range(new_shape[0]):
+        row = []
+        for j in range(new_shape[1]):
+            row.append(flat[k])
+            k += 1
+        reshaped.append(row)
+        
+    return reshaped
+
+matrix = [[1, 2, 3], [-1, 4, 5], [-2, 6, 7]]
+new_shape = (3, 3)
+
+print(matrix_reshape(matrix, new_shape))
