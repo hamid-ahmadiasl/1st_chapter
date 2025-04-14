@@ -17,7 +17,7 @@ def matrix_transpose(matrix: list) -> list:
             return -1
     
     #Creating empty matrix transpose
-    transpose = [[5 for _ in range(n)] for _ in range(m)]
+    transpose = [[0 for _ in range(n)] for _ in range(m)]
     
     #Filling transpose matrix
     for i in range(n):
