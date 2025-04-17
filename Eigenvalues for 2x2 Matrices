@@ -1,0 +1,16 @@
+def calculate_eigenvalues_2x2(matrix: list) -> int|float:
+    #Calculate the eigenvalues of a 2x2 matrix
+    
+    #Checking Numbers on Columns and Rows to be 2x2
+    if not matrix or not len(matrix) == 2 or not all(len(row) == 2 for row in matrix):
+        return 'Unacceptable matrix'
+    
+    det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    trace = matrix[0][0] + matrix[1][1]
+    lambda1 = (trace + (trace**2 - 4 * det)**0.5) / 2
+    lambda2 = (trace - (trace**2 - 4 * det)**0.5) / 2
+    
+    return f'lambda_1: {lambda1}', f'lambda_2: {lambda2}'
+
+matrix = [[2, 1], [1, 2]]
+print(calculate_eigenvalues_2x2(matrix))
