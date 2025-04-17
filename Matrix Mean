@@ -1,0 +1,32 @@
+def matrix_mean(matrix: list, mode: str) -> list:
+    #return mean of matrix according to mode:column/row
+    
+    #Checking matrix availability and equality of column No. for all rows
+    if not matrix or not all(len(matrix[0]) == len(row) for row in matrix):
+        return []
+   
+    #Getting dimensions; n = row No., m = column No
+    m, n = len(matrix[0]), len(matrix)
+    
+    #Calculation of mean based on mode
+    if mode == 'row':
+        return [sum(row) / m for row in matrix]
+    elif mode == 'column':
+        return [sum(matrix[i][j] for i in range(n)) / n for j in range(m)]
+    # elif mode == 'column':
+    #     a = []
+    #     for j in range(m): 
+    #         b = 0
+    #         for i in range(n):
+    #             b += matrix[i][j]
+    #         a.append(b / n)
+    #     return a
+    else:
+        return []
+    
+matrix = [[1, 2], [-1, 4], [-2, 6], [7, 8]]
+modeR = 'row'
+modeC = 'column'
+
+print(matrix_mean(matrix, modeR))
+print(matrix_mean(matrix, modeC))
