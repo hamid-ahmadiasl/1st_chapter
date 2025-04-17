@@ -1,0 +1,23 @@
+def scalar_matrix_multiply(matrix: list, scalar: int|float) -> list:
+    #return multiplication of matrix with scalar
+    
+    #Checking the availability of matrix
+    if not matrix:
+        return 'There is no matrices'
+    
+    #Getting dimensions; n = row No., m = column No
+    n, m = len(matrix), len(matrix[0])
+    
+    #Checking equality of column No. for all rows
+    if not all(m == len(row) for row in matrix):
+        return 'Unequality in Columns'
+    
+    #Multiplication of scalar to matrix
+    multiplication = [[matrix[i][j] * scalar for j in range(m)] for i in range(n)]
+
+    return multiplication
+
+scalar = 2.5
+matrix = [[1, 2, 3], [-1, 4, 5], [-2, 6, 7]]
+    
+print(scalar_matrix_multiply(matrix, scalar))
