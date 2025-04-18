@@ -1,0 +1,29 @@
+def matrix_determinant(matrix: list) -> float:
+    #return determinant for squared matrices
+    
+    #suitability check
+    if not matrix or \
+        not all(len(row) == len(matrix[0]) for row in matrix) or \
+        not len(matrix) == len(matrix[0]):
+        return -1
+    
+    #Getting dimenstion
+    n = len(matrix)
+    det = 0
+    
+    # Handle 1x1 matrix
+    if n == 1:
+        det = matrix[0][0]
+        return det
+    # Handle 2x2 matrix
+    if n == 2:
+        det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        return det
+    # Recursive case for n > 2
+    for j in range(n):
+        sub_matrix = [[matrix[i][k] for k in range(n) if k != j] for i in range(n) if i != 0]
+        det += ((-1) ** j) * matrix[0][j] * matrix_determinant(sub_matrix)
+    return det
+    
+matrix = [[5, 4, 3, 1], [1, 2, 3, 1], [3, 4, 5, 1], [2, 4, 2, 1]]
+print(matrix_determinant(matrix))
