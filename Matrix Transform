@@ -1,0 +1,118 @@
+def matrix_transform(A: list, T: list, S: list) -> list:
+    #take invetible matrices T & S and transfrom matrix A -> T^-1.A.S
+    
+    #Checking matrices availability
+    if not A or not T or not S:
+        return 'Unavailable matrices'
+    
+    #Checking equality of Column No. for all rows
+    if not all(len(row) == len(A[0]) for row in A) or \
+       not all(len(row) == len(T[0]) for row in T) or \
+       not all(len(row) == len(S[0]) for row in S):
+        return 'Unbalace matrices'
+    
+    #Getting matrices dimensions, m = row No., n = column No.
+    m, n = len(A), len(A[0])
+    T_m, T_n = len(T), len(T[0])
+    S_m, S_n = len(S), len(S[0])
+    
+    #Checking if T & S are square
+    if not T_m == T_n or not S_m == S_n:
+        return 'Non-squared marices S or T'
+    
+    #Checking compatibility of matrices
+    if not T_m == m or not S_m == n:
+        return 'Matrices are incompatible'
+    
+    def matrix_determinant(matrix: list) -> float:
+        #return determinant for squared matrices
+        
+        #Getting dimenstions
+        n = len(matrix)
+        det = 0
+        
+        # Handle 1x1 matrix
+        if n == 1:
+            det = matrix[0][0]
+            return det
+        # Handle 2x2 matrix
+        if n == 2:
+            det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+            return det
+        # Recursive cases for n > 2
+        for j in range(n):
+            sub_matrix = [[matrix[i][k] for k in range(n) if k != j] for i in range(n) if i != 0]
+            det += ((-1) ** j) * matrix[0][j] * matrix_determinant(sub_matrix)
+        return det
+    
+    def matrix_cofactor(matrix: list) -> float:
+        #return cofactor for squared matrices
+        
+        #Creating base matrix of zeros for cofactor matrix
+        cofactors = [[0 for _ in range(len(matrix))] for _ in range(len(matrix))]
+        
+        #Calculatinng cofactors
+        for i in range(len(matrix)):
+            for j in range(len(matrix)):
+                minor_matrix = [[matrix[r][c] for c in range(len(matrix)) if c != j] for r in range(len(matrix)) if r != i]
+                cofactors[i][j] = ((-1) ** (i + j)) * matrix_determinant(minor_matrix)
+        return cofactors
+        
+    def matrix_inverse(matrix: list) -> list:
+        #return inverse of matrices
+        
+        if matrix_determinant(matrix) == 0:
+            return None
+        else:
+            #Transpose cofactor matrix to get adjugate
+            adjugate = [[matrix_cofactor(matrix)[j][i] for j in range(len(matrix))] 
+                        for i in range(len(matrix))]
+            # Divide by determinant to get inverse
+            inverse = [[adjugate[i][j] / matrix_determinant(matrix) for j in range(len(matrix))] 
+                       for i in range(len(adjugate))]    
+        return inverse
+    
+    def matrix_multipication(X: list, Y: list) -> list:
+        #return multipication of two matrices
+        #NOTE: lists in list of X and Y are rows
+        
+        #Checking matrices compatibility
+        if len(X[0]) != len(Y):
+            return None
+
+        #Creating base matrix of zeros for results
+        results = [[0 for _ in range(len(Y[0]))] for _ in range(len(X))]
+        
+        #matrices multipication
+        for i in range(len(X)):
+            for j in range(len(Y[0])):
+                for k in range(len(Y)):
+                    results[i][j] += X[i][k] * Y[k][j]
+        return results
+    
+    #Checking matrix invertability
+    S_invert = matrix_inverse(S)
+    if S_invert is None:
+        return 'Matrix S is NOT invertible!'
+    
+    T_invert = matrix_inverse(T)
+    if T_invert is None:
+        return 'Matrix T is NOT invertible!'
+    
+    #Matrices Multiplication, comupting T^-1 . A
+    T_transp_A = matrix_multipication(T_invert, A)
+    if T_transp_A is None:
+        return 'T^-1 . A is unavailable'
+    
+    #Matrices Multiplication, comupting T_transp_A . A
+    A_transformed = matrix_multipication(T_transp_A, S)
+    if A_transformed is None:
+        return 'T^-1 . A . S is unavailable'
+    
+    return A_transformed
+
+A = [[1, 2], [3, 4]]
+T = [[2, 0], [0, 2]]
+S = [[1, 1], [0, 1]]
+
+print(matrix_transform(A, T, S))
