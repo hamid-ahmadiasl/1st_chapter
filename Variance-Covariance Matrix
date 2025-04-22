@@ -1,0 +1,39 @@
+def variance_covariance_matrix(vectors: list) -> list:
+    #return variance-covariance matrix for list of vectors
+    #which inner lists are features with its observations
+    
+    #Checking input availability
+    if not vectors:
+        return 'Unavailable vectors!'
+    
+    #Validity of all features which must have same number of observations
+    if not all(len(vectors[0]) == len(feature) for feature in vectors):
+        return 'Unequality in number of observations'
+    
+    #Getting dimensions; m = feature No., n = observation No.
+    m, n = len(vectors), len(vectors[0])
+    
+    #Checking if enough observations, at least 2
+    if n < 2:
+        return 'Insufficient observations'
+    
+    #Computing mean for each feature
+    mean = [sum(feature) / n for feature in vectors]
+    
+    #Initializing base matrix of zeros for variance-covariance matrix
+    results = [[0 for _ in range(m)] for _ in range(m)]
+    
+    #Computing variance for each feature
+    for i in range(m):
+        results[i][i] = sum((vectors[i][j] - mean[i]) ** 2 for j in range(n)) /(n-1)
+    
+    #Computing covariance for pairs of features
+    for i in range(m):
+        for j in range(m):
+            results[i][j] = sum((vectors[i][k] - mean[i]) * (vectors[j][k] - mean[j]) \
+                                for k in range(n)) / (n-1)
+
+    return results
+
+vectors = [[1, 2, 3], [4, 5, 6]]
+print(variance_covariance_matrix(vectors))
