@@ -1,0 +1,25 @@
+def binary_search(list1: list, target: int) -> int:
+    """
+    Argorithm for binary search; return index number
+    """
+    first = 0
+    last = len(list1)
+    try:
+        while first <= target:
+            midpoint = (first + last) // 2
+            if list1[midpoint] == target:
+                result = f'The index of {target} is {midpoint} in the List'
+                return result
+            elif list1[midpoint] < target:
+                first = midpoint + 1
+            else:
+                last = midpoint - 1
+    except:
+        return 'The target was not found'
+    
+
+list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+target = 5
+print(binary_search(list1, target))
+target = 11
+print(binary_search(list1, target))
