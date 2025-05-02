@@ -1,0 +1,23 @@
+def recursive_binary_search(list1: list, target: int) -> bool:
+    """
+    Argorithm for binary search; return True or False
+    """
+    
+    if len(list1) == 0:
+        return False
+    else:
+        midpoint = len(list1) // 2
+        
+        if list1[midpoint] == target:
+            return True
+        else:
+            if list1[midpoint] < target:
+                return recursive_binary_search(list1[midpoint+1:], target)
+            else:
+                return recursive_binary_search(list1[:midpoint], target)
+        
+list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+target = 10
+print(recursive_binary_search(list1, target))
+target = 11
+print(recursive_binary_search(list1, target))
