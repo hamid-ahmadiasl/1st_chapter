@@ -1,0 +1,17 @@
+def linear_search(list1: list, target: int) -> int:
+    """
+    Argorithm for linear search; return index number
+    """
+    
+    for i in range(len(list1)):
+        if list1[i] == target:
+            return f'The index of {target} is {i} in the List'
+    return 'The target wass not found'
+        
+list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+target = 7
+
+print(linear_search(list1, target))
+
+target = 11
+print(linear_search(list1, target))
